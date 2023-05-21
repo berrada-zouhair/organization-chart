@@ -28,7 +28,6 @@ export const Photo = styled.img`
   height: 166px;
   border-radius: 0 2px 2px 0;
   object-fit: cover;
-  //z-index: -1;
 `;
 
 export const PhotoRectangle = styled.div`
@@ -42,16 +41,13 @@ export const PhotoRectangle = styled.div`
   z-index: 1;
 `;
 export const NameText = styled.div`
-  //font-family: "McLaren";
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
+  font-weight: bold;
+  font-size: 15px;
 `;
 
 export const PositionText = styled.div`
-  //font-family: 'McLaren';
   font-style: normal;
-  font-weight: 400;
   font-size: 12px;
   color: rgba(0, 0, 0, 0.7);
 `;

@@ -23,16 +23,7 @@ const MemberCard: React.FunctionComponent<MemberCardProps> = ({
   position,
   description,
 }) => {
-  console.log(image, firstName, lastName, position, description);
   return (
-    // <Container>
-    // <>
-    //   <PhotoRectangle />
-    //   <InfoContainer>
-    //     <Photo src={image}></Photo>
-    //   </InfoContainer>
-    // </>
-    // </Container>
     <InfoContainer>
       <PhotoContainer>
         <Photo src={image} />
@@ -40,7 +31,7 @@ const MemberCard: React.FunctionComponent<MemberCardProps> = ({
       </PhotoContainer>
       <TextContainer>
         <NameText>{`${lastName} ${firstName}`}</NameText>
-        <PositionText>{`${position}`}</PositionText>
+        <PositionText>{`${position}${description}`}</PositionText>
       </TextContainer>
     </InfoContainer>
   );
