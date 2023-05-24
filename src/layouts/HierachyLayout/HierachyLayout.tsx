@@ -1,122 +1,148 @@
+import React, { ReactElement } from "react";
 import { ArcherContainer, ArcherElement } from "react-archer";
-import React from "react";
+import { groupBy } from "lodash";
+import { AnchorPositionType, LineType } from "react-archer/src/types";
+import { Hierarchy, Member } from "../../services/types";
 import MemberCard from "../../components/MemberCard/MemberCard";
+import { Container, HierarchyLine, RootLine } from "./HierachyLayout.style";
 
-const rootStyle = { display: "flex", justifyContent: "center" };
-const rowStyle = {
-  margin: "200px 0",
-  display: "flex",
-  justifyContent: "space-between",
+type RelationType = {
+  targetId: string;
+  targetAnchor: AnchorPositionType;
+  sourceAnchor: AnchorPositionType;
+  order?: number;
+  label?: React.ReactNode | null | undefined;
+  style?: LineType;
 };
-const HierachyLayout: React.FunctionComponent = () => {
+
+const memberToCard = (member: Member) => {
   return (
-    <div style={{ height: "500px", margin: "50px" }}>
-      <ArcherContainer
-        strokeColor="black"
-        lineStyle="angle"
-        endMarker={false}
-        strokeWidth={2}
-      >
-        <div style={rootStyle}>
-          <ArcherElement
-            id="root"
-            relations={[
-              {
-                targetId: "element2",
-                targetAnchor: "top",
-                sourceAnchor: "bottom",
-              },
-              {
-                targetId: "element3",
-                targetAnchor: "top",
-                sourceAnchor: "bottom",
-              },
-              {
-                targetId: "element4",
-                targetAnchor: "top",
-                sourceAnchor: "bottom",
-              },
-              {
-                targetId: "element5",
-                targetAnchor: "top",
-                sourceAnchor: "bottom",
-              },
-            ]}
-          >
-            <div>
-              <MemberCard
-                image={
-                  "https://media.istockphoto.com/id/538264373/photo/success-and-nothing-less.jpg?s=170667a&w=0&k=20&c=_HiOCHlczf5p3rSVAK2a4qUhC-pUThmr88A2bnB7tq0="
-                }
-                firstName={"Zakaria"}
-                lastName={"BERRADA"}
-                position={"CEO"}
-                description={""}
-              />
-            </div>
-          </ArcherElement>
-        </div>
-
-        <div style={rowStyle}>
-          <ArcherElement id="element2">
-            <div>
-              <MemberCard
-                image={
-                  "https://media.istockphoto.com/id/1309328823/fr/photo/verticale-headshot-de-lemploy%C3%A9-masculin-de-sourire-dans-le-bureau.jpg?b=1&s=612x612&w=0&k=20&c=Y8DpRjL_WZSVmV9LEMAJgogYMGMkqQsvcZ2Nb5LBmrk="
-                }
-                firstName={"Zouhair"}
-                lastName={"BERRADA"}
-                position={"VP"}
-                description={""}
-              />
-            </div>
-          </ArcherElement>
-
-          <ArcherElement id="element3">
-            <div>
-              <MemberCard
-                image={
-                  "https://media.istockphoto.com/id/529278045/photo/working-on-something-great.jpg?s=170667a&w=0&k=20&c=XT9z1yOr2-bw4lLxb7FneBPzqGkFtiKI1PBbnGyYQSs="
-                }
-                firstName={"Driss"}
-                lastName={"BERRADA"}
-                position={"CTO"}
-                description={""}
-              />
-            </div>
-          </ArcherElement>
-
-          <ArcherElement id="element4">
-            <div>
-              <MemberCard
-                image={
-                  "https://us.123rf.com/450wm/fizkes/fizkes2009/fizkes200901023/156165274-vue-rapproch%C3%A9e-de-l-%C3%A9cran-de-la-t%C3%AAte-d-un-homme-caucasien-souriant-dans-des-lunettes-ayant-une.jpg?ver=6"
-                }
-                firstName={"Othmane"}
-                lastName={"BERRADA"}
-                position={"CFO"}
-                description={""}
-              />
-            </div>
-          </ArcherElement>
-
-          <ArcherElement id="element5">
-            <div>
-              <MemberCard
-                image={
-                  "https://media.istockphoto.com/id/1141906656/photo/home-office.jpg?s=612x612&w=0&k=20&c=ZKiSPtFiLaxVxVy22Dy9ytZYgk7qEJ0AEhodz5EkViQ="
-                }
-                firstName={"Mouhsine"}
-                lastName={"BERRADA"}
-                position={"Coach"}
-                description={""}
-              />
-            </div>
-          </ArcherElement>
-        </div>
-      </ArcherContainer>
-    </div>
+    <MemberCard
+      image={member.info.image}
+      firstName={member.info.firstName}
+      lastName={member.info.lastName}
+      position={member.info.position}
+      description={member.info.description}
+    />
   );
 };
 
-export default HierachyLayout;
+const getSubordinatesRelations = (
+  subordinates: Member[]
+): RelationType[] | undefined => {
+  return subordinates.length > 0
+    ? subordinates.map(
+        (subordinate): RelationType => ({
+          targetId: subordinate.info.id.toString(),
+          targetAnchor: "top",
+          sourceAnchor: "bottom",
+        })
+      )
+    : undefined;
+};
+
+const memberToArcherElement = (
+  member: Member,
+  relations: RelationType[] | undefined
+): ReactElement => {
+  return (
+    <ArcherElement
+      key={member.info.id.toString()}
+      id={member.info.id.toString()}
+      relations={relations}
+    >
+      <div>{memberToCard(member)}</div>
+    </ArcherElement>
+  );
+};
+
+const getAllArchers = (
+  manager: Member,
+  subordinates: Member[],
+  level: number
+): { archer: ReactElement; level: number }[] => {
+  if (manager.info.id === 4) {
+    console.log("QQQQQ", getSubordinatesRelations(manager.subordinates));
+  }
+  const managerArcher = {
+    archer: memberToArcherElement(
+      manager,
+      getSubordinatesRelations(manager.subordinates)
+    ),
+    level,
+  };
+  if (subordinates.length === 0) {
+    return [managerArcher];
+  }
+  const subordinatesArchers = manager.subordinates.flatMap((subordinate) =>
+    getAllArchers(subordinate, subordinate.subordinates, level + 1)
+  );
+
+  return [managerArcher, ...subordinatesArchers];
+};
+
+const getLevelArchers = (
+  dictionary: { [level: string]: ReactElement[] },
+  level: number
+) => {
+  const archers = dictionary[level] as unknown as {
+    archer: ReactElement;
+    level: number;
+  }[];
+  if (archers.length > 1) {
+    const hierarchyLine = (
+      <HierarchyLine key={`level${level}`}>
+        {archers.map((archer) => (
+          <div key={`archer${archer.archer.key}`}>{archer.archer}</div>
+        ))}
+      </HierarchyLine>
+    );
+    console.log("@@@@@@1", hierarchyLine);
+    return hierarchyLine;
+  }
+
+  console.log("AAAAAAAA", archers[0]);
+  const rootLine = (
+    <RootLine key={`level${level}`}>
+      <div key={`archer${archers[0].archer.key}`}>{archers[0].archer}</div>
+    </RootLine>
+  );
+  console.log("@@@@@@2", rootLine);
+  return rootLine;
+};
+
+const buildHierarchy = (hierarchy: Hierarchy) => {
+  const archers = getAllArchers(hierarchy.root, hierarchy.root.subordinates, 0);
+  const archersByLevel = groupBy(archers, "level");
+  const maxLevel = Math.max(
+    ...Object.keys(archersByLevel).map((level) => +level)
+  );
+  const levels = [...Array.from({ length: maxLevel + 1 }, (_, index) => index)];
+  return (
+    <ArcherContainer
+      strokeColor="#4bbeff"
+      lineStyle="curve"
+      endMarker={true}
+      endShape={{ arrow: { arrowThickness: 5, arrowLength: 5 } }}
+      strokeWidth={2}
+    >
+      {levels.map((level) =>
+        getLevelArchers(
+          archersByLevel as unknown as { [level: string]: ReactElement[] },
+          level
+        )
+      )}
+    </ArcherContainer>
+  );
+};
+
+type HierarchyLayoutProps = {
+  hierarchy: Hierarchy;
+};
+const HierarchyLayout: React.FunctionComponent<HierarchyLayoutProps> = ({
+  hierarchy,
+}) => {
+  return <Container>{buildHierarchy(hierarchy)}</Container>;
+};
+
+export default HierarchyLayout;
