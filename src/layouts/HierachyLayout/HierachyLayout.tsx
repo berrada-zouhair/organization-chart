@@ -61,9 +61,6 @@ const getAllArchers = (
   subordinates: Member[],
   level: number
 ): { archer: ReactElement; level: number }[] => {
-  if (manager.info.id === 4) {
-    console.log("QQQQQ", getSubordinatesRelations(manager.subordinates));
-  }
   const managerArcher = {
     archer: memberToArcherElement(
       manager,
@@ -90,25 +87,20 @@ const getLevelArchers = (
     level: number;
   }[];
   if (archers.length > 1) {
-    const hierarchyLine = (
+    return (
       <HierarchyLine key={`level${level}`}>
         {archers.map((archer) => (
           <div key={`archer${archer.archer.key}`}>{archer.archer}</div>
         ))}
       </HierarchyLine>
     );
-    console.log("@@@@@@1", hierarchyLine);
-    return hierarchyLine;
   }
 
-  console.log("AAAAAAAA", archers[0]);
-  const rootLine = (
+  return (
     <RootLine key={`level${level}`}>
       <div key={`archer${archers[0].archer.key}`}>{archers[0].archer}</div>
     </RootLine>
   );
-  console.log("@@@@@@2", rootLine);
-  return rootLine;
 };
 
 const buildHierarchy = (hierarchy: Hierarchy) => {

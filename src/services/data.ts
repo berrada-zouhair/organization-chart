@@ -13,31 +13,31 @@ const abdellah: Member = {
   subordinates: [],
 };
 
-const marouane: Member = {
-  info: {
-    id: 16,
-    firstName: "Marouane",
-    lastName: "BERRADA",
-    position: "CTO",
-    description: "",
-    image:
-      "https://media.istockphoto.com/id/529278045/photo/working-on-something-great.jpg?s=170667a&w=0&k=20&c=XT9z1yOr2-bw4lLxb7FneBPzqGkFtiKI1PBbnGyYQSs=",
-  },
-  subordinates: [],
-};
+// const marouane: Member = {
+//   info: {
+//     id: 16,
+//     firstName: "Marouane",
+//     lastName: "BERRADA",
+//     position: "CTO",
+//     description: "",
+//     image:
+//       "https://media.istockphoto.com/id/529278045/photo/working-on-something-great.jpg?s=170667a&w=0&k=20&c=XT9z1yOr2-bw4lLxb7FneBPzqGkFtiKI1PBbnGyYQSs=",
+//   },
+//   subordinates: [],
+// };
 
-const hakim: Member = {
-  info: {
-    id: 17,
-    firstName: "Hakim",
-    lastName: "BERRADA",
-    position: "CTO",
-    description: "",
-    image:
-      "https://media.istockphoto.com/id/529278045/photo/working-on-something-great.jpg?s=170667a&w=0&k=20&c=XT9z1yOr2-bw4lLxb7FneBPzqGkFtiKI1PBbnGyYQSs=",
-  },
-  subordinates: [],
-};
+// const hakim: Member = {
+//   info: {
+//     id: 17,
+//     firstName: "Hakim",
+//     lastName: "BERRADA",
+//     position: "CTO",
+//     description: "",
+//     image:
+//       "https://media.istockphoto.com/id/529278045/photo/working-on-something-great.jpg?s=170667a&w=0&k=20&c=XT9z1yOr2-bw4lLxb7FneBPzqGkFtiKI1PBbnGyYQSs=",
+//   },
+//   subordinates: [],
+// };
 
 // const anass: Member = {
 //   info: {
@@ -52,18 +52,18 @@ const hakim: Member = {
 //   subordinates: [],
 // };
 
-// const soufiane: Member = {
-//   info: {
-//     id: 20,
-//     firstName: "Soufiane",
-//     lastName: "BERRADA",
-//     position: "CTO",
-//     description: "",
-//     image:
-//       "https://media.istockphoto.com/id/529278045/photo/working-on-something-great.jpg?s=170667a&w=0&k=20&c=XT9z1yOr2-bw4lLxb7FneBPzqGkFtiKI1PBbnGyYQSs=",
-//   },
-//   subordinates: [],
-// };
+const soufiane: Member = {
+  info: {
+    id: 20,
+    firstName: "Soufiane",
+    lastName: "BERRADA",
+    position: "CTO",
+    description: "",
+    image:
+      "https://media.istockphoto.com/id/529278045/photo/working-on-something-great.jpg?s=170667a&w=0&k=20&c=XT9z1yOr2-bw4lLxb7FneBPzqGkFtiKI1PBbnGyYQSs=",
+  },
+  subordinates: [],
+};
 
 const driss: Member = {
   info: {
@@ -75,7 +75,7 @@ const driss: Member = {
     image:
       "https://media.istockphoto.com/id/529278045/photo/working-on-something-great.jpg?s=170667a&w=0&k=20&c=XT9z1yOr2-bw4lLxb7FneBPzqGkFtiKI1PBbnGyYQSs=",
   },
-  subordinates: [abdellah, marouane, hakim],
+  subordinates: [abdellah, soufiane],
 };
 
 const hassan: Member = {
@@ -134,20 +134,6 @@ const othmane: Member = {
   subordinates: [mehdi],
 };
 
-const ahmed: Member = {
-  info: {
-    id: 10,
-    image:
-      "https://media.istockphoto.com/id/1141906656/photo/home-office.jpg?s=612x612&w=0&k=20&c=ZKiSPtFiLaxVxVy22Dy9ytZYgk7qEJ0AEhodz5EkViQ=",
-
-    firstName: "Ahmed",
-    lastName: "BERRADA",
-    position: "Manager",
-    description: "",
-  },
-  subordinates: [],
-};
-
 const hamza: Member = {
   info: {
     id: 11,
@@ -160,6 +146,20 @@ const hamza: Member = {
     description: "",
   },
   subordinates: [],
+};
+
+const ahmed: Member = {
+  info: {
+    id: 10,
+    image:
+      "https://media.istockphoto.com/id/1141906656/photo/home-office.jpg?s=612x612&w=0&k=20&c=ZKiSPtFiLaxVxVy22Dy9ytZYgk7qEJ0AEhodz5EkViQ=",
+
+    firstName: "Ahmed",
+    lastName: "BERRADA",
+    position: "Manager",
+    description: "",
+  },
+  subordinates: [hassan, amine, hamza],
 };
 
 const mouhsine: Member = {
@@ -186,7 +186,8 @@ const zouhair: Member = {
     image:
       "https://media.istockphoto.com/id/1309328823/fr/photo/verticale-headshot-de-lemploy%C3%A9-masculin-de-sourire-dans-le-bureau.jpg?b=1&s=612x612&w=0&k=20&c=Y8DpRjL_WZSVmV9LEMAJgogYMGMkqQsvcZ2Nb5LBmrk=",
   },
-  subordinates: [hassan, amine, hamza],
+  // subordinates: [hassan, amine, hamza],
+  subordinates: [],
 };
 
 const zakaria: Member = {
@@ -199,7 +200,7 @@ const zakaria: Member = {
     image:
       "https://media.istockphoto.com/id/538264373/photo/success-and-nothing-less.jpg?s=170667a&w=0&k=20&c=_HiOCHlczf5p3rSVAK2a4qUhC-pUThmr88A2bnB7tq0=",
   },
-  subordinates: [mouhsine, zouhair, othmane, driss],
+  subordinates: [mouhsine, othmane, driss, zouhair],
 };
 
 export const hierarchy: Hierarchy = {
