@@ -24,11 +24,11 @@ export const createMembers = (count: number): Member[] =>
   );
 
 export const createRoot = (): Member => {
-  const members = createMembers(12);
+  const members = createMembers(14);
   members[0].subordinates = [members[1], members[2], members[3], members[4]];
   members[1].subordinates = [members[5]];
   members[2].subordinates = [members[6]];
-  members[3].subordinates = [members[7], members[8]];
+  members[3].subordinates = [members[7], members[8], members[12], members[13]];
   members[5].subordinates = [members[9], members[10], members[11]];
   return members[0];
 };

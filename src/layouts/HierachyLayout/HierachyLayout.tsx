@@ -5,6 +5,7 @@ import { AnchorPositionType, LineType } from "react-archer/src/types";
 import { Member } from "../../services/types";
 import MemberCard from "../../components/MemberCard/MemberCard";
 import { Container, HierarchyLine, RootLine } from "./HierachyLayout.style";
+import GroupMemberCards from "../../components/GroupMemberCards/GroupMemberCards";
 
 type RelationType = {
   targetId: string;
@@ -27,18 +28,33 @@ const memberToCard = (member: Member) => {
   );
 };
 
+const getMembersArcherId = (parentId: number, members: Member[]) =>
+  `${parentId}-${members.length}`;
+
 const getSubordinatesRelations = (
-  subordinates: Member[]
+  manager: Member,
+  level: number
 ): RelationType[] | undefined => {
-  return subordinates.length > 0
-    ? subordinates.map(
-        (subordinate): RelationType => ({
-          targetId: subordinate.info.id.toString(),
-          targetAnchor: "top",
-          sourceAnchor: "bottom",
-        })
-      )
-    : undefined;
+  if (manager.subordinates.length === 0) {
+    return undefined;
+  }
+
+  if (manager.subordinates.length < 3 || level === 0) {
+    return manager.subordinates.map(
+      (subordinate): RelationType => ({
+        targetId: subordinate.info.id.toString(),
+        targetAnchor: "top",
+        sourceAnchor: "bottom",
+      })
+    );
+  }
+  return [
+    {
+      targetId: getMembersArcherId(manager.info.id, manager.subordinates),
+      targetAnchor: "top",
+      sourceAnchor: "bottom",
+    },
+  ];
 };
 
 const memberToArcherElement = (
@@ -56,6 +72,18 @@ const memberToArcherElement = (
   );
 };
 
+const membersToArcherElement = (
+  parentId: number,
+  members: Member[]
+): ReactElement => {
+  const id = getMembersArcherId(parentId, members);
+  return (
+    <ArcherElement key={id} id={id}>
+      <div>{<GroupMemberCards members={members} />}</div>
+    </ArcherElement>
+  );
+};
+
 const getAllArchers = (
   manager: Member,
   subordinates: Member[],
@@ -64,18 +92,28 @@ const getAllArchers = (
   const managerArcher = {
     archer: memberToArcherElement(
       manager,
-      getSubordinatesRelations(manager.subordinates)
+      getSubordinatesRelations(manager, level)
     ),
     level,
   };
   if (subordinates.length === 0) {
     return [managerArcher];
   }
-  const subordinatesArchers = manager.subordinates.flatMap((subordinate) =>
-    getAllArchers(subordinate, subordinate.subordinates, level + 1)
-  );
 
-  return [managerArcher, ...subordinatesArchers];
+  if (manager.subordinates.length < 3 || level === 0) {
+    const subordinatesArchers = manager.subordinates.flatMap((subordinate) =>
+      getAllArchers(subordinate, subordinate.subordinates, level + 1)
+    );
+    return [managerArcher, ...subordinatesArchers];
+  }
+
+  return [
+    managerArcher,
+    {
+      archer: membersToArcherElement(manager.info.id, manager.subordinates),
+      level: level + 1,
+    },
+  ];
 };
 
 const getLevelArchers = (

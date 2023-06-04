@@ -71,7 +71,7 @@ const GroupMemberCards: React.FunctionComponent<GroupMemberCardsProps> = ({
           />
         </div>
       </CardsContainer>
-      <CountSubordinates>33</CountSubordinates>
+      <CountSubordinates>{members.length}</CountSubordinates>
     </Container>
   );
 };
