@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { ArcherContainer, ArcherElement } from "react-archer";
 import { groupBy } from "lodash";
 import { AnchorPositionType, LineType } from "react-archer/src/types";
-import { Hierarchy, Member } from "../../services/types";
+import { Member } from "../../services/types";
 import MemberCard from "../../components/MemberCard/MemberCard";
 import { Container, HierarchyLine, RootLine } from "./HierachyLayout.style";
 
@@ -103,8 +103,8 @@ const getLevelArchers = (
   );
 };
 
-const buildHierarchy = (hierarchy: Hierarchy) => {
-  const archers = getAllArchers(hierarchy.root, hierarchy.root.subordinates, 0);
+const buildHierarchy = (root: Member) => {
+  const archers = getAllArchers(root, root.subordinates, 0);
   const archersByLevel = groupBy(archers, "level");
   const maxLevel = Math.max(
     ...Object.keys(archersByLevel).map((level) => +level)
@@ -129,12 +129,12 @@ const buildHierarchy = (hierarchy: Hierarchy) => {
 };
 
 type HierarchyLayoutProps = {
-  hierarchy: Hierarchy;
+  root: Member;
 };
 const HierarchyLayout: React.FunctionComponent<HierarchyLayoutProps> = ({
-  hierarchy,
+  root,
 }) => {
-  return <Container>{buildHierarchy(hierarchy)}</Container>;
+  return <Container>{buildHierarchy(root)}</Container>;
 };
 
 export default HierarchyLayout;

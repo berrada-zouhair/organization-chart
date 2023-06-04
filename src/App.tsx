@@ -1,11 +1,23 @@
 import React from "react";
-// import logo from "./logo.svg";
 import "./App.css";
-import HierachyLayout from "./layouts/HierachyLayout/HierachyLayout";
-import { hierarchy } from "./services/data";
+import { createMembers, createRoot } from "./services/data";
+import HierarchyLayout from "./layouts/HierachyLayout/HierachyLayout";
+import GroupMemberCards from "./components/GroupMemberCards/GroupMemberCards";
 
 function App() {
-  return <HierachyLayout hierarchy={hierarchy} />;
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        // alignItems: "center",
+        padding: "10px 0",
+      }}
+    >
+      <HierarchyLayout root={createRoot()} />
+      <GroupMemberCards members={createMembers(3)} />
+    </div>
+  );
 }
 
 export default App;

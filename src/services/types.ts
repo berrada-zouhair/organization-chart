@@ -11,7 +11,3 @@ export type Member = {
   info: MemberInfo;
   subordinates: Member[];
 };
-
-export type Hierarchy = {
-  root: Member;
-};
